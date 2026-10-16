@@ -1,0 +1,84 @@
+K-MEANS CLUSTERING
+
+Aim: Cluster a dataset into two groups using K-Means in Breeze and Intercept Clustering.
+
+Program:
+
+import breeze.linalg._
+
+object Main extends App {
+
+  val data = List(
+    DenseVector(2.0, 1.0),
+    DenseVector(1.0, 2.0),
+    DenseVector(2.0, 3.0),
+    DenseVector(8.0, 8.0),
+    DenseVector(4.0, 7.0),
+    DenseVector(10.0, 9.0)
+  )
+
+  var centroid1 = DenseVector(2.0, 1.0)
+  var centroid2 = DenseVector(10.0, 9.0)
+
+  def distance(a: DenseVector[Double],
+               b: DenseVector[Double]): Double = {
+    norm(a - b)
+  }
+
+  val clusters = data.map { point =>
+    val d1 = distance(point, centroid1)
+    val d2 = distance(point, centroid2)
+
+    if (d1 < d2) (point, 1)
+    else (point, 2)
+  }
+
+  println("Point\t\t\tCluster")
+  println("----------------------------")
+
+  clusters.foreach { case (point, cluster) =>
+    println(s"$point\t$cluster")
+  }
+
+  val cluster1 = clusters.filter(_._2 == 1).map(_._1)
+  val cluster2 = clusters.filter(_._2 == 2).map(_._1)
+
+  def meanVector(
+      points: List[DenseVector[Double]]
+  ): DenseVector[Double] = {
+    val sum = points.reduce(_ + _)
+    sum /:/ points.length.toDouble
+  }
+
+  centroid1 = meanVector(cluster1)
+  centroid2 = meanVector(cluster2)
+
+  println("\nNew Centroids")
+  println("----------------------------")
+
+  println(
+    f"Centroid 1: DenseVector(${centroid1(0)}%.2f, ${centroid1(1)}%.2f)"
+  )
+
+  println(
+    f"Centroid 2: DenseVector(${centroid2(0)}%.2f, ${centroid2(1)}%.2f)"
+  )
+}
+
+
+Output:
+
+
+Point                   Cluster
+-------------------------------
+DenseVector(2.0, 1.0)      1
+DenseVector(1.0, 2.0)      1
+DenseVector(2.0, 3.0)      1
+DenseVector(8.0, 8.0)      2
+DenseVector(4.0, 7.0)      2
+DenseVector(10.0, 9.0)     2
+
+New Centroids
+-------------------------------
+Centroid 1: DenseVector(1.67, 2.00)
+Centroid 2: DenseVector(7.33, 8.00)
