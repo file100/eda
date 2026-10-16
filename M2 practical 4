@@ -1,0 +1,73 @@
+LOGISTIC REGRESSION AND CLASSIFICATION
+
+Aim:-
+
+1.Perform logistic regression using Breeze.
+2.Classify a dataset with binary labels.
+3.Evaluate classification results.
+
+Program:-
+
+import breeze.linalg._
+import breeze.numerics._
+
+object Main extends App {
+
+  val x = DenseVector(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
+  val actual = DenseVector(0, 0, 0, 1, 1, 1)
+
+  val intercept = -3.0
+  val slope = 1.0
+
+  def sigmoid(z: Double): Double = {
+    1.0 / (1.0 + math.exp(-z))
+  }
+
+  val probabilities = x.map(v => sigmoid(intercept + slope * v))
+  val predicted = probabilities.map(p => if (p >= 0.5) 1 else 0)
+
+  println("--------------------------------")
+  println("X\tActual\tProbability\tPredicted")
+  println("--------------------------------")
+
+  for (i <- 0 until x.length) {
+    println(
+      f"${x(i)}%.1f\t${actual(i)}\t${probabilities(i)}%.3f\t\t${predicted(i)}"
+    )
+  }
+
+  var correct = 0
+
+  for (i <- 0 until actual.length) {
+    if (actual(i) == predicted(i)) {
+      correct += 1
+    }
+  }
+
+  val accuracy = (correct.toDouble / actual.length) * 100
+
+  println("--------------------------------")
+  println(f"Accuracy = $accuracy%.2f%%")
+
+  if (accuracy >= 80) {
+    println("Model Performance: Good")
+  } else {
+    println("Model Performance: Needs Improvement")
+  }
+}
+
+
+Output:
+
+--------------------------------
+X       Actual  Probability  Predicted
+--------------------------------
+1.0     0       0.119        0
+2.0     0       0.269        0
+3.0     0       0.500        1
+4.0     1       0.731        1
+5.0     1       0.881        1
+6.0     1       0.953        1
+--------------------------------
+Accuracy = 83.33%
+Model Performance: Good
