@@ -1,0 +1,70 @@
+Spark DataFrame Operations
+
+Aim:
+
+1.Load data into a Spark DataFrame.
+2.Filter rows where numeric column values exceed a threshold.
+3.Perform a GroupBy operation to compute the average of each group.
+
+Program:
+
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import avg
+
+spark = SparkSession.builder \
+    .appName("DataFrame Example") \
+    .getOrCreate()
+
+data = [
+    ("Aarav", "CS", 82),
+    ("Ananya", "IT", 90),
+    ("Kabir", "IT", 75),
+    ("Priya", "CS", 68),
+    ("Rohan", "IT", 85),
+    ("Diya", "CS", 94)
+]
+
+columns = ["Name", "Department", "Marks"]
+
+df = spark.createDataFrame(data, columns)
+
+df.show()
+
+df.filter(df.Marks > 80).show()
+
+df.groupBy("Department") \
+    .agg(avg("Marks").alias("Average_Marks")) \
+    .show()
+
+spark.stop()
+
+
+Output:-
+
+1. Display DataFrame
++------+----------+-----+
+|  Name|Department|Marks|
++------+----------+-----+
+| Aarav|        CS|   82|
+|Ananya|        IT|   90|
+| Kabir|        IT|   75|
+| Priya|        CS|   68|
+| Rohan|        IT|   85|
+|  Diya|        CS|   94|
++------+----------+-----+
+2. Filter Marks Greater Than 80
++------+----------+-----+
+|  Name|Department|Marks|
++------+----------+-----+
+| Aarav|        CS|   82|
+|Ananya|        IT|   90|
+| Rohan|        IT|   85|
+|  Diya|        CS|   94|
++------+----------+-----+
+3. Group By Department and Calculate Average Marks
++----------+------------------+
+|Department|     Average_Marks|
++----------+------------------+
+|        CS|81.33333333333333 |
+|        IT|83.33333333333333 |
++----------+------------------+
