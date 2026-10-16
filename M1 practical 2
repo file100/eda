@@ -1,0 +1,58 @@
+Descriptive Statistics Using Scala Collections
+
+Aim:
+
+1.Create a list of numbers.
+2.Calculate mean, median, and mode using Scala collections.
+3.Display the results in formatted output.
+
+Code:-
+
+object Main {
+  def main(args: Array[String]): Unit = {
+
+    // Create a list of numbers
+    val numbers = List(12, 15, 18, 20, 15, 22, 18, 15, 25, 30)
+
+    // Mean
+    val mean = numbers.sum.toDouble / numbers.length
+
+    // Median
+    val sorted = numbers.sorted
+    val n = sorted.length
+
+    val median =
+      if (n % 2 == 0)
+        (sorted(n / 2 - 1) + sorted(n / 2)) / 2.0
+      else
+        sorted(n / 2)
+
+    // Mode
+    val mode = numbers
+      .groupBy(identity)
+      .map { case (num, list) => (num, list.size) }
+      .maxBy(_._2)
+      ._1
+
+    // Display results
+    println("================================")
+    println("       Statistical Analysis")
+    println("================================")
+    println("Numbers: " + numbers.mkString(", "))
+    println(f"Mean:   $mean%.2f")
+    println(f"Median: $median%.2f")
+    println("Mode:   " + mode)
+    println("================================")
+  }
+}
+
+Output:-
+
+================================
+       Statistical Analysis
+================================
+Numbers: 12, 15, 18, 20, 15, 22, 18, 15, 25, 30
+Mean:   19.00
+Median: 18.00
+Mode:   15
+================================
