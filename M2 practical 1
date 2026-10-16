@@ -1,0 +1,100 @@
+Practical No.: 1
+
+Title: Correlation and Moving Average
+
+Aim:
+
+1. Implement Pearson correlation coefficient between two lists of numbers using Scala.
+2. Calculate moving average of time series data using Scala collections.
+3. Interpret the results.
+
+Program:
+
+object Main extends App {
+
+  // Two datasets
+  val x = List(12.0, 15.0, 18.0, 21.0, 24.0, 27.0)
+  val y = List(25.0, 30.0, 34.0, 40.0, 44.0, 49.0)
+
+  val meanX = x.sum / x.length
+  val meanY = y.sum / y.length
+
+  val numerator = (x zip y).map {
+    case (a, b) => (a - meanX) * (b - meanY)
+  }.sum
+
+  val denominatorX = math.sqrt(
+    x.map(a => math.pow(a - meanX, 2)).sum
+  )
+
+  val denominatorY = math.sqrt(
+    y.map(b => math.pow(b - meanY, 2)).sum
+  )
+
+  val correlation =
+    numerator / (denominatorX * denominatorY)
+
+  println("x")
+  println(x)
+  println("y")
+  println(y)
+
+  println("mean x")
+  println(meanX)
+  println("mean y")
+  println(meanY)
+
+  println("numerator")
+  println(numerator)
+  println("denominator x")
+  println(denominatorX)
+  println("denominator y")
+  println(denominatorY)
+
+  println("correlation")
+  println(correlation)
+
+  if (correlation > 0.8)
+    println("Strong Positive Correlation")
+  else if (correlation < -0.8)
+    println("Strong Negative Correlation")
+  else
+    println("Weak or Moderate Correlation")
+
+  println(
+    "The moving average smooths short-term fluctuations " +
+    "and shows the overall trend."
+  )
+
+  // Moving Average
+  val x1 = List(150, 250, 350, 450, 550)
+  val window = 3
+
+  val movingAverage = x1.sliding(window)
+    .map(list => list.sum.toDouble / window)
+    .toList
+
+  println("Moving Average: " + movingAverage)
+}
+
+Output:
+
+x
+List(12.0, 15.0, 18.0, 21.0, 24.0, 27.0)
+y
+List(25.0, 30.0, 34.0, 40.0, 44.0, 49.0)
+mean x
+19.5
+mean y
+37.0
+numerator
+252.0
+denominator x
+12.549900398011133
+denominator y
+20.09975124224178
+correlation
+0.998994082580961
+Strong Positive Correlation
+The moving average smooths short-term fluctuations and shows the overall trend.
+Moving Average: List(250.0, 350.0, 450.0)
