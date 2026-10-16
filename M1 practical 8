@@ -1,0 +1,57 @@
+Title:- CSV File Handling and Basic Statistics Using Scala
+
+Aim:-
+To read a CSV file using Scala and calculate basic statistical values such as mean, minimum, and maximum marks.
+
+Program:-
+object Main extends App {
+
+  // CSV data
+  val csvData =
+    """Name,Marks
+      |Amit,78
+      |Priya,85
+      |Rahul,92
+      |Sneha,88
+      |Karan,75
+      |Jyoti,89
+      |Samika,93
+      |""".stripMargin
+
+  // Split into lines and skip the header
+  val lines = csvData.split("\n").drop(1)
+
+  // Extract the Marks column
+  val marks = lines.map(_.split(",")(1).toDouble)
+
+  // Calculate statistics
+  val mean = marks.sum / marks.length
+  val minimum = marks.min
+  val maximum = marks.max
+
+  // Display summary
+  println("CSV Statistical Report")
+  println("CSV Data: " + csvData)
+  println("Mean Marks: " + mean)
+  println("Minimum Marks: " + minimum)
+  println("Maximum Marks: " + maximum)
+}
+
+
+Output:-
+
+CSV Statistical Report
+
+CSV Data:
+Name,Marks
+Amit,78
+Priya,85
+Rahul,92
+Sneha,88
+Karan,75
+Jyoti,89
+Samika,93
+
+Mean Marks: 85.71428571428571
+Minimum Marks: 75.0
+Maximum Marks: 93.0
