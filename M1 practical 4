@@ -1,0 +1,40 @@
+Vector Operations Using Breeze
+
+Aim:-
+
+1.To create dense vectors using Breeze.
+2.To compute the sum and mean of a vector.
+3.To calculate the dot product between two vectors.
+
+Code:-
+import breeze.linalg._
+
+object Main {
+  def main(args: Array[String]): Unit = {
+
+    val vector1 = DenseVector(10.0, 20.0, 30.0, 40.0, 50.0)
+    val vector2 = DenseVector(5.0, 4.0, 3.0, 2.0, 1.0)
+
+    val sum = breeze.linalg.sum(vector1)
+    val mean = sum / vector1.length
+    val dotProduct = vector1.dot(vector2)
+
+    println("Breeze Vector Operations")
+    println("Vector 1: " + vector1)
+    println("Vector 2: " + vector2)
+    println("Sum of Vector 1: " + sum)
+    println("Mean of Vector 1: " + mean)
+    println("Dot Product: " + dotProduct)
+  }
+}
+
+
+Output:-
+
+Breeze Vector Operations
+
+Vector 1: DenseVector(10.0, 20.0, 30.0, 40.0, 50.0)
+Vector 2: DenseVector(5.0, 4.0, 3.0, 2.0, 1.0)
+Sum of Vector 1: 150.0
+Mean of Vector 1: 30.0
+Dot Product: 350.0
