@@ -1,0 +1,72 @@
+Data Cleaning Transformation in Scala
+
+Aim:- 
+To handle missing values in a dataset by replacing them with the mean of the available values.
+
+Program:-
+object Main extends App {
+
+  // Dataset: (Name, Marks, Gender)
+  // None represents a missing value
+
+  val data = List(
+    ("Amit", Some(78.0), "Male"),
+    ("Priya", Some(85.0), "Female"),
+    ("Rahul", None, "Male"),
+    ("Sneha", Some(92.0), "Female"),
+    ("Karan", None, "Male"),
+    ("Karan", None, "Male"),
+    ("Riya", Some(90.0), "Female"),
+    ("Sahil", Some(70.6), "Male")
+  )
+
+  // Step 1: Handle Missing Values
+
+  println("Original Dataset")
+  println("Name\tMarks\tGender")
+  data.foreach(println)
+
+  // Step 2: Replace Missing Values with Mean
+
+  val validMarks = data.flatMap(_._2)
+
+  val mean = validMarks.sum / validMarks.length
+
+  val cleanData = data.map {
+    case (name, marks, gender) =>
+      (name, marks.getOrElse(mean), gender)
+  }
+
+  println("Mean: " + mean)
+  println("Marks: " + validMarks)
+  println("Clean Data: " + cleanData)
+}
+
+
+Output:-
+
+Original Dataset
+Name    Marks    Gender
+(Amit,Some(78.0),Male)
+(Priya,Some(85.0),Female)
+(Rahul,None,Male)
+(Sneha,Some(92.0),Female)
+(Karan,None,Male)
+(Karan,None,Male)
+(Riya,Some(90.0),Female)
+(Sahil,Some(70.6),Male)
+
+Mean: 83.12
+
+Marks: List(78.0, 85.0, 92.0, 90.0, 70.6)
+
+Clean Data: List(
+  (Amit,78.0,Male),
+  (Priya,85.0,Female),
+  (Rahul,83.12,Male),
+  (Sneha,92.0,Female),
+  (Karan,83.12,Male),
+  (Karan,83.12,Male),
+  (Riya,90.0,Female),
+  (Sahil,70.6,Male)
+)
