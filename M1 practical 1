@@ -1,0 +1,16 @@
+Experiment: Environment Setup and Basic Scala Program
+
+Aim:
+
+Install and configure Scala and SBT.
+Write a simple Scala program to print a welcome message to the console.
+Compile and run the program using SBT.
+Code:
+object HelloWorld {
+  def main(args: Array[String]): Unit = {
+    println("Hello, World!")
+  }
+}
+
+Output:
+Hello, World!
