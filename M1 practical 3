@@ -1,0 +1,51 @@
+Random Dataset and Variability Measures
+
+Aim:-
+
+Generate a random dataset of 10 numbers, calculate variance and standard deviation, and interpret the results.
+
+Code:-
+
+import scala.util.Random
+import scala.math._
+
+object Main {
+  def main(args: Array[String]): Unit = {
+
+    val data = Array.fill(10)(Random.nextInt(100))
+    val mean = data.sum.toDouble / data.length
+
+    val variance = data.map(x => pow(x - mean, 2)).sum / data.length
+    val stdDeviation = sqrt(variance)
+
+    println("")
+    println("Statistical Analysis")
+    println("")
+    println("Dataset: " + data.mkString(", "))
+    printf("Mean: %.2f\n", mean)
+    printf("Variance: %.2f\n", variance)
+    printf("Standard Deviation: %.2f\n", stdDeviation)
+
+    println("\nInterpretation:")
+    if (stdDeviation < 15)
+      println("The data has low variability.")
+    else if (stdDeviation < 30)
+      println("The data has moderate variability.")
+    else
+      println("The data has high variability.")
+  }
+}
+
+
+Output:-
+
+Statistical Analysis
+
+Dataset: 42, 26, 44, 51, 65, 49, 80, 78, 97, 48
+
+Mean: 58.00
+Variance: 416.00
+Standard Deviation: 20.40
+
+Interpretation:
+The data has moderate variability.
