@@ -1,0 +1,68 @@
+LINEAR REGRESSION USING BREEZE
+
+Aim:
+
+1.Implement linear regression using Breeze.
+2.Fit a regression model to a small dataset.
+3.Predict values using the trained model.
+
+PROGRAM :-
+
+import breeze.linalg._
+
+object Main extends App {
+
+  // Independent Variable (X) and Dependent Variable (Y)
+  val x = DenseVector(1.0, 2.0, 3.0, 4.0, 5.0)
+  val y = DenseVector(2.0, 4.0, 5.0, 4.0, 5.0)
+
+  val X = DenseMatrix.horzcat(
+    DenseVector.ones[Double](x.length).toDenseMatrix.t,
+    x.toDenseMatrix.t
+  )
+
+  // Regression Coefficients
+  val beta = inv(X.t * X) * X.t * y
+
+  val intercept = beta(0)
+  val slope = beta(1)
+
+  println("Linear Regression Model")
+  println("-----------------------")
+  println(f"Intercept = $intercept%.4f")
+  println(f"Slope = $slope%.4f")
+
+  val predicted = X * beta
+
+  println("\nActual\tPredicted")
+  for (i <- 0 until y.length) {
+    println(f"${y(i)}%.2f\t${predicted(i)}%.2f")
+  }
+
+  // Prediction for new value
+  val newX = 6.0
+  val prediction = intercept + slope * newX
+
+  println("\nPrediction")
+  println("----------")
+  println(f"For X = $newX%.1f, Predicted Y = $prediction%.2f")
+}
+
+
+OUTPUT:
+
+Linear Regression Model
+-----------------------
+Intercept = 2.2000
+Slope = 0.6000
+
+Actual    Predicted
+2.00      2.80
+4.00      3.40
+5.00      4.00
+4.00      4.60
+5.00      5.20
+
+Prediction
+----------
+For X = 6.0, Predicted Y = 5.80
