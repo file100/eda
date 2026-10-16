@@ -1,0 +1,38 @@
+Element-Wise Matrix Operations
+
+Aim:-
+
+1.To perform addition, subtraction, and multiplication of two Breeze matrices
+2.verify the results programmatically.
+
+Program (Scala):- 
+
+import breeze.linalg._
+
+object Main {
+  def main(args: Array[String]): Unit = {
+
+    val matrixA = DenseMatrix(
+      (5, 9),
+      (8, 2)
+    )
+
+    val matrixB = DenseMatrix(
+      (9, 4),
+      (5, 7)
+    )
+
+    val addition = matrixA + matrixB
+    val subtraction = matrixA - matrixB
+    val multiplication = matrixA * matrixB
+
+    println("Addition")
+    println(addition)
+
+    println("Subtraction")
+    println(subtraction)
+
+    println("Multiplication")
+    println(multiplication)
+  }
+}
