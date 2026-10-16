@@ -1,0 +1,49 @@
+Matrix Operations Using Breeze
+
+Aim:-
+
+1.Generate a random matrix.
+2.Compute the transpose and determinant.
+3.Interpret matrix properties.
+
+Code:-
+
+import breeze.linalg._
+import breeze.stats.distributions.Rand
+
+object Main {
+  def main(args: Array[String]): Unit = {
+
+    val matrix = DenseMatrix.rand[Double](3, 3, Rand.uniform)
+    val transposeMatrix = matrix.t
+    val determinant = det(matrix)
+
+    println("Matrix Operations (Breeze)")
+    println("Original Matrix:")
+    println(matrix)
+
+    println("\nTranspose Matrix:")
+    println(transposeMatrix)
+
+    printf("\nDeterminant: %.4f\n", determinant)
+
+    println("Interpretation:")
+
+    if (math.abs(determinant) < 1e-6)
+      print("The matrix is singular (non-invertible).")
+    else
+      print("The matrix is non-singular (invertible).")
+  }
+}
+
+Output:-
+
+Original Matrix:
+0.0084   0.7489   0.2435
+0.9328   0.1859   0.4733
+0.7492   0.9825   0.0199
+
+Transpose Matrix:
+0.0084   0.9328   0.7492
+0.7489   0.1859   0.9825
+0.2435   0.4733   0.0199
