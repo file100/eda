@@ -1,0 +1,113 @@
+Aim
+1.Compute frequency distribution and cumulative frequency of a dataset.
+2.Sort the dataset by a specific column.
+3.Extract the top 5 rows after sorting.
+
+Program :-
+
+object Main extends App {
+
+  // Dataset (Name, Marks)
+  val students = List(
+    ("Aarav", 85),
+    ("Ananya", 92),
+    ("Rohan", 78),
+    ("Isha", 65),
+    ("Kabir", 85),
+    ("Priya", 74),
+    ("Siddharth", 92),
+    ("Neha", 78),
+    ("Aman", 88),
+    ("Diya", 95)
+  )
+
+  // Frequency Calculation
+  val frequency = students.groupBy(_._2).map {
+    case (marks, list) => (marks, list.length)
+  }.toSeq.sortBy(_._1)
+
+  println("Frequency Distribution:")
+  println("Marks\tFrequency")
+
+  frequency.foreach {
+    case (marks, freq) =>
+      println(s"$marks\t$freq")
+  }
+
+  // Cumulative Frequency
+  println("\n=== Cumulative Frequency ===")
+  println("Marks\tFrequency\tCumulative")
+
+  var cumulative = 0
+
+  frequency.foreach {
+    case (marks, freq) =>
+      cumulative += freq
+      println(s"$marks\t$freq\t\t$cumulative")
+  }
+
+  // Sorted Dataset
+  val sortedStudents = students.sortBy(_._2)
+
+  println("\n=== Sorted Dataset ===")
+  println("Name\tMarks")
+
+  sortedStudents.foreach {
+    case (name, marks) =>
+      println(s"$name\t$marks")
+  }
+
+  // Top 5 Students
+  val top5 = sortedStudents.take(5)
+
+  println("\n=== Top 5 Students ===")
+  println("Name\tMarks")
+
+  top5.foreach {
+    case (name, marks) =>
+      println(s"$name\t$marks")
+  }
+}
+
+
+
+
+Output :-
+
+1. Frequency Distribution
+Marks   Frequency
+65      1
+74      1
+78      2
+85      2
+88      1
+92      2
+95      1
+2. Cumulative Frequency
+Marks   Frequency   Cumulative
+65      1           1
+74      1           2
+78      2           4
+85      2           6
+88      1           7
+92      2           9
+95      1           10
+3. Sorted Dataset
+Name        Marks
+Isha        65
+Priya       74
+Rohan       78
+Neha        78
+Aarav       85
+Kabir       85
+Aman        88
+Ananya      92
+Siddharth   92
+Diya        95
+4. Top 5 Students (as in the original program)
+Name    Marks
+Isha    65
+Priya   74
+Rohan   78
+Neha    78
+Aarav   85
