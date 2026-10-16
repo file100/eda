@@ -1,0 +1,52 @@
+Data Joining and Output in Spark
+
+Aim:
+
+1.To join two CSV files using Spark DataFrames on a common column
+2.write the output to a new file.
+
+Program:-
+
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder \
+    .appName("Join Example") \
+    .getOrCreate()
+
+student = [
+    (101, "Aarav"),
+    (102, "Ananya"),
+    (103, "Rohan"),
+    (104, "Isha"),
+    (105, "Kabir")
+]
+
+marks = [
+    (101, 85),
+    (102, 92),
+    (103, 78),
+    (104, 65),
+    (105, 88)
+]
+
+df1 = spark.createDataFrame(student, ["ID", "Name"])
+df2 = spark.createDataFrame(marks, ["ID", "Marks"])
+
+joined_df = df1.join(df2, on="ID", how="inner")
+
+joined_df.show()
+
+spark.stop()
+
+
+Output:-
+
++---+------+-----+
+| ID|  Name|Marks|
++---+------+-----+
+|101|  Aarav|   85|
+|102|Ananya|   92|
+|103| Rohan|   78|
+|104|   Isha|   65|
+|105|  Kabir|   88|
++---+------+-----+
