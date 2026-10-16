@@ -1,0 +1,39 @@
+Title:-
+Data Visualization using Bivariate Distribution
+
+Aim:-
+Create a scatter plot with labelled axes and color.
+
+Program (Scala):-
+object Main extends App {
+
+  val data = List(12, 15, 18, 20, 15, 18, 17, 22, 25, 18)
+
+  // Create bin of width 5
+  val histogram = data.groupBy(x => (x / 5) * 5)
+    .map { case (bin, values) => (bin, values.size) }
+    .toSeq
+    .sortBy(_._1)
+
+  println("Histogram")
+  println("Range\tFrequency")
+
+  histogram.foreach {
+    case (bin, freq) =>
+      println(s"$bin-${bin + 4}\t$freq")
+  }
+}
+
+Output:-
+
+Histogram
+Range
+Frequency
+10–14
+1
+15–19
+6
+20–24
+2
+25–29
+1
