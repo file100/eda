@@ -1,0 +1,144 @@
+SPARK MLlib AND FEATURE ENGINEERING
+
+Aim:
+
+1.Create a simple Spark MLlib pipeline using Logistic Regression for decision trees.
+2.Generate synthetic time series data.
+3.Create polynomial features up to degree 3 for a dataset.
+4.Analyze model performance.
+
+PROGRAM :-
+
+from pyspark.sql import SparkSession
+from pyspark.ml.feature import VectorAssembler
+from pyspark.ml.classification import LogisticRegression
+from pyspark.ml import Pipeline
+from pyspark.ml.evaluation import MulticlassClassificationEvaluator
+
+spark = SparkSession.builder \
+    .appName("MLlib Pipeline Example") \
+    .master("local[*]") \
+    .getOrCreate()
+
+data = [
+    (2.0, 0),
+    (3.0, 0),
+    (4.0, 0),
+    (5.0, 1),
+    (6.0, 1),
+    (7.0, 1),
+    (8.0, 1),
+    (9.0, 1)
+]
+
+df = spark.createDataFrame(data, ["x", "label"])
+
+df = df.withColumn("x2", df.x * df.x)
+df = df.withColumn("x3", df.x * df.x * df.x)
+
+print("Dataset")
+df.show()
+
+assembler = VectorAssembler(
+    inputCols=["x", "x2", "x3"],
+    outputCol="features"
+)
+
+lr = LogisticRegression(
+    featuresCol="features",
+    labelCol="label"
+)
+
+pipeline = Pipeline(stages=[assembler, lr])
+
+model = pipeline.fit(df)
+
+prediction = model.transform(df)
+
+print("Prediction")
+prediction.select("x", "label", "prediction").show()
+
+evaluator = MulticlassClassificationEvaluator(
+    labelCol="label",
+    predictionCol="prediction",
+    metricName="accuracy"
+)
+
+accuracy = evaluator.evaluate(prediction)
+
+print(f"Accuracy: {accuracy}")
+
+spark.stop()
+
+
+OUTPUT:-
+
+1. Dataset
+x
+label
+x2
+x3
+2.0
+0
+4.0
+8.0
+3.0
+0
+9.0
+27.0
+4.0
+0
+16.0
+64.0
+5.0
+1
+25.0
+125.0
+6.0
+1
+36.0
+216.0
+7.0
+1
+49.0
+343.0
+8.0
+1
+64.0
+512.0
+9.0
+1
+81.0
+729.0
+
+2. Prediction
+x
+label
+Prediction
+2.0
+0
+0.0
+3.0
+0
+0.0
+4.0
+0
+0.0
+5.0
+1
+1.0
+6.0
+1
+1.0
+7.0
+1
+1.0
+8.0
+1
+1.0
+9.0
+1
+1.0
+
+3. Accuracy
+Accuracy: 1.0
