@@ -1,0 +1,59 @@
+Matrix Slicing & Aggregation
+
+Aim:
+
+1.Slice a Breeze matrix to extract a sub-matrix.
+2.Compute row-wise and column-wise sums.
+3.Display the results.
+
+Code:
+
+import breeze.linalg._
+
+object Main {
+  def main(args: Array[String]): Unit = {
+
+    val matrix = DenseMatrix(
+      (4, 8, 7, 2),
+      (2, 7, 9, 1),
+      (3, 8, 1, 5),
+      (1, 8, 9, 3)
+    )
+
+    val subMatrix = matrix(1 to 2, 1 to 2)
+
+    val rowSums = sum(matrix(*, ::))
+    val colSums = sum(matrix(::, *))
+
+    println("rowSums")
+    println(rowSums)
+
+    println("colSums")
+    println(colSums)
+
+    println("matrix")
+    println(matrix)
+
+    println("subMatrix")
+    println(subMatrix)
+  }
+}
+
+
+Output:
+
+Matrix:
+4  8  7  2
+2  7  9  1
+3  8  1  5
+1  8  9  3
+
+SubMatrix:
+7  9
+8  1
+
+Row Sums:
+DenseVector(21, 19, 17, 21)
+
+Column Sums:
+Transpose(DenseVector(10, 31, 26, 11))
